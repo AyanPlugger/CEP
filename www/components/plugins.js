@@ -1,19 +1,25 @@
 // This is a JavaScript file
 
-$(document).on("click","alert",function(){
-    navigator.notification.alert("minha mensagem", null, "alert", "sim");
+$(document).on("click","#alert",function(){
+    navigator.notification.alert("app para mostrar o mapa", null, "alert", "sim");
 });
 
-$(document).on("click","geo",function(){
+
+    function showMap(lat, long){
+        L.mapquest.key = 'ISLy0mUUlvb6hfSYq0XToeDbL70uJ2Cf';
+
+        var map = L.mapquest.map('map', {
+          center: [37.7749, -122.4194],
+          layers: L.mapquest.tileLayer('map'),
+          zoom: 12
+        });
+
+        map.addControl(L.mapquest.control());
+    }
+
+$(document).on("click","#geo",function(){
      var onSuccess = function(position) {
-        alert('Latitude: '          + position.coords.latitude          + '\n' +
-              'Longitude: '         + position.coords.longitude         + '\n' +
-              'Altitude: '          + position.coords.altitude          + '\n' +
-              'Accuracy: '          + position.coords.accuracy          + '\n' +
-              'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-              'Heading: '           + position.coords.heading           + '\n' +
-              'Speed: '             + position.coords.speed             + '\n' +
-              'Timestamp: '         + position.timestamp                + '\n');
+       showMap(position.coords.latitude, position.coords.longitude)
     };
 
     // onError Callback receives a PositionError object
@@ -25,3 +31,4 @@ $(document).on("click","geo",function(){
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
 });
+
