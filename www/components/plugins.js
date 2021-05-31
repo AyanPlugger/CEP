@@ -1,34 +1,16 @@
-// This is a JavaScript file
+$(document).on("click","#camera",function(){
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+      destinationType: Camera.DestinationType.FILE_URI,
+      correcOrientation: true,
+      saveToPhotoAlbum: true });
 
-$(document).on("click","#alert",function(){
-    navigator.notification.alert("app para mostrar o mapa", null, "alert", "sim");
+  function onSuccess(imageURI) {
+      var image = document.getElementById('imagem');
+      image.src = imageURI;
+      
+  }
+
+  function onFail(message) {
+      alert('Failed: ' + message);
+  }
 });
-
-
-    function showMap(lat, long){
-        L.mapquest.key = 'ISLy0mUUlvb6hfSYq0XToeDbL70uJ2Cf';
-
-        var map = L.mapquest.map('map', {
-          center: [37.7749, -122.4194],
-          layers: L.mapquest.tileLayer('map'),
-          zoom: 12
-        });
-
-        map.addControl(L.mapquest.control());
-    }
-
-$(document).on("click","#geo",function(){
-     var onSuccess = function(position) {
-       showMap(position.coords.latitude, position.coords.longitude)
-    };
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-});
-
